@@ -6,9 +6,10 @@ The project implements a first local RAG pipeline in Python using BlueSea Foods 
 
 ## Current Scope
 
-This version cover the first ticket:
+This version covers the first two tickets:
 
 - Ticket 1: document collection and organization.
+- Ticket 2: content processing, text cleaning and chunking.
 
 The next steps are embeddings, vector search improvements and answer generation with stronger citations.
 
@@ -73,3 +74,4 @@ python -m rag_bsf.cli ask "What are the employee leave rules?"
 
 - [Architecture](docs/architecture.md)
 - [Ticket 1 - Recoleccion y organizacion documental](docs/tickets/01_recoleccion_organizacion.md)
+[Ticket 2 - Proceso y extraccion de contenido](docs/tickets/02_proceso_extraccion_contenido.md)
