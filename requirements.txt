@@ -1,0 +1,8 @@
+# BlueSea AI Assistant dependencies
+#
+# Current tickets use only the Python standard library at runtime.
+# This file lets Colab and evaluators install the local package with one command.
+-e .
+
+# Test runner used by the repository tests.
+pytest>=8.0.0

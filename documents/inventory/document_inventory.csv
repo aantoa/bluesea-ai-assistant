@@ -1,9 +1,0 @@
-document_id,file_name,title,format,category,owner,version,status,effective_date,review_date,source,confidentiality,language,description
-BSF-HR-001,employee_onboarding_guide.pdf,Employee Onboarding Guide,PDF,Human Resources,HR Manager,1.0,Active,2026-07-01,2027-07-01,SharePoint,Internal,English,Guidance for new employees joining BlueSea Foods
-BSF-HSE-001,workplace_safety_procedure.docx,Workplace Safety Procedure,DOCX,Health Safety and Environment,HSE Manager,1.0,Active,2026-07-01,2027-01-01,SharePoint,Internal,English,Safety requirements and emergency procedures for employees
-BSF-OPS-001,cold_chain_control.xlsx,Cold Chain Control Register,XLSX,Operations,Operations Manager,1.0,Active,2026-07-01,2027-01-01,ERP,Internal,English,Temperature control records for seafood storage and transportation
-BSF-QMS-001,quality_induction.pptx,Quality Management Induction,PPTX,Quality Management,Quality Assurance Manager,1.0,Active,2026-07-01,2027-07-01,Quality Management System,Internal,English,Introductory training on quality policies and procedures
-BSF-HR-002,employee_faq.md,Employee Frequently Asked Questions,MD,Human Resources,HR Manager,1.0,Active,2026-07-01,2027-01-01,SharePoint,Internal,English,Common questions about schedules benefits leave and internal procedures
-BSF-OPS-002,authorized_vessels.csv,Authorized Fishing Vessels,CSV,Operations,Operations Manager,1.0,Active,2026-07-01,2026-12-31,Operations System,Internal,English,List of vessels authorized to supply seafood products
-BSF-OPS-003,species_catalog.json,Seafood Species Catalog,JSON,Operations,Operations Manager,1.0,Active,2026-07-01,2027-01-01,Operations System,Internal,English,Catalog of seafood species codes storage conditions and permitted uses
-BSF-IT-001,catch_registration_manual.html,Catch Registration System Manual,HTML,Information Technology,IT Manager,1.0,Active,2026-07-01,2027-01-01,Technical Repository,Internal,English,User guide for registering seafood catches in the internal system

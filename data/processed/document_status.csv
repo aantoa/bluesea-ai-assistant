@@ -1,0 +1,25 @@
+document_id,title,format,category,expected_folder,expected_file,final_available,markdown_available,status
+BSF-CORP-001,Corporate Profile,PDF,Corporate,,BSF-CORP-001_Corporate_Profile.docx,false,false,missing
+BSF-CORP-002,Corporate Glossary,PDF,Corporate,,BSF-CORP-002_Corporate_Glossary.docx,false,false,missing
+BSF-DOC-STD-001,Corporate Document Standard,PDF,Corporate,,BSF-DOC-STD-001_Corporate_Document_Standard.docx,false,false,missing
+BSF-CORP-003,Corporate Organization Chart,PDF,Corporate,,BSF-CORP-003_Corporate_Organization_Chart.docx,false,false,missing
+BSF-CORP-004,Corporate Knowledge Map,PDF,Corporate,,BSF-CORP-004_Corporate_Knowledge_Map.docx,false,false,missing
+BSF-HR-001,Employee Onboarding Guide,PDF,Human Resources,,BSF-HR-001_Employee_Onboarding_Guide.docx,false,false,missing
+BSF-HR-002,Employee FAQ,Markdown,Human Resources,,BSF-HR-002_Employee_FAQ.md,false,false,missing
+BSF-HR-003,Leave and Benefits Policy,DOCX,Human Resources,,BSF-HR-003_Leave_and_Benefits_Policy.md,false,false,missing
+BSF-HSE-001,Workplace Safety Procedure,DOCX,HSE,,BSF-HSE-001_Workplace_Safety_Procedure.md,false,false,missing
+BSF-HSE-002,Emergency Response Guide,PDF,HSE,,BSF-HSE-002_Emergency_Response_Guide.md,false,false,missing
+BSF-OPS-001,Cold Chain Control Register,XLSX,Operations,,BSF-OPS-001_Cold_Chain_Control_Register.xlsx,false,false,missing
+BSF-OPS-002,Authorized Fishing Vessels,CSV,Operations,,BSF-OPS-002_Authorized_Fishing_Vessels.csv,false,false,missing
+BSF-OPS-003,Seafood Species Catalog,JSON,Operations,,BSF-OPS-003_Seafood_Species_Catalog.json,false,false,missing
+BSF-OPS-004,Seafood Receiving and Inspection Procedure,PDF,Operations,,BSF-OPS-004_Seafood_Receiving_and_Inspection_Procedure.md,false,false,missing
+BSF-QMS-001,Quality Management Induction,PPTX,Quality and Certifications,,BSF-QMS-001_Quality_Management_Induction.pptx,false,false,missing
+BSF-QMS-002,Certification and Compliance Overview,PDF,Quality and Certifications,,BSF-QMS-002_Certification_and_Compliance_Overview.docx,false,false,missing
+BSF-QMS-003,Corrective Action and Nonconformity Procedure,PDF,Quality and Certifications,,BSF-QMS-003_Corrective_Action_and_Nonconformity_Procedure.docx,false,false,missing
+BSF-IT-001,BlueTrack User Manual,HTML,Technology,,BSF-IT-001_BlueTrack_User_Manual.html,false,false,missing
+BSF-IT-002,Corporate Systems Access Guide,PDF,Technology,,BSF-IT-002_Corporate_Systems_Access_Guide.docx,false,false,missing
+BSF-INV-001,Document Inventory,CSV,Document Control,,BSF-INV-001_Document_Inventory.csv,false,false,missing
+BSF-INV-002,Document Ownership Matrix,XLSX,Document Control,,BSF-INV-002_Document_Ownership_Matrix.xlsx,false,false,missing
+BSF-INV-003,Document Sources and Ingestion Plan,Markdown,Document Control,,BSF-INV-003_Document_Sources_and_Ingestion_Plan.md,false,false,missing
+BSF-INV-004,Document Curation and Quality Criteria,Markdown,Document Control,,BSF-INV-004_Document_Curation_and_Quality_Criteria.md,false,false,missing
+BSF-INV-005,Access and Permissions Policy,Markdown,Document Control,,BSF-INV-005_Access_and_Permissions_Policy.md,false,false,missing
