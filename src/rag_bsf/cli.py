@@ -4,6 +4,7 @@ import argparse
 import sys
 
 from rag_bsf.rag_pipeline import (
+    answer_question,
     build_inventory,
     index_chunks,
     process_documents,
@@ -31,6 +32,18 @@ def main(argv: list[str] | None = None) -> int:
     retrieve_parser.add_argument("--top-k", type=int, default=5, help="Number of final context chunks.")
     retrieve_parser.add_argument("--candidate-k", type=int, default=20, help="Number of semantic candidates before reranking.")
     retrieve_parser.add_argument(
+        "--filter",
+        action="append",
+        default=[],
+        help="Metadata filter in key=value form. Can be repeated, for example --filter category='Human Resources'.",
+    )
+
+    ask_parser = subparsers.add_parser("ask", help="Generate a grounded answer with citations from retrieved context.")
+    ask_parser.add_argument("question", help="Question to answer using the local RAG index.")
+    ask_parser.add_argument("--top-k", type=int, default=5, help="Number of final context chunks.")
+    ask_parser.add_argument("--candidate-k", type=int, default=20, help="Number of semantic candidates before reranking.")
+    ask_parser.add_argument("--min-confidence", type=float, default=0.18, help="Minimum retrieval score required to answer.")
+    ask_parser.add_argument(
         "--filter",
         action="append",
         default=[],
@@ -111,6 +124,33 @@ def main(argv: list[str] | None = None) -> int:
         )
         print()
         print(retrieved.context)
+        return 0
+
+    if args.command == "ask":
+        try:
+            metadata_filters = _parse_metadata_filters(args.filter)
+        except ValueError as exc:
+            parser.error(str(exc))
+        result = answer_question(
+            args.question,
+            top_k=args.top_k,
+            candidate_k=args.candidate_k,
+            metadata_filters=metadata_filters,
+            min_confidence=args.min_confidence,
+        )
+        print(result.answer)
+        if result.grounded:
+            print()
+            print("Referencias:")
+            for source in result.sources:
+                print(
+                    f"- [{source.source_label}] {source.document_code} | "
+                    f"{source.filename} | seccion={source.section} | "
+                    f"owner={source.owner or 'N/A'}"
+                )
+        else:
+            print()
+            print(f"Fallback aplicado: {result.fallback_reason}")
         return 0
 
     return 1

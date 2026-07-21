@@ -20,10 +20,11 @@ from rag_bsf.config import (
     SOURCE_EXTENSION_BY_FORMAT,
     SUPPORTED_SOURCE_EXTENSIONS,
 )
+from rag_bsf.answer_generation import generate_grounded_answer
 from rag_bsf.document_loader import build_document_record, discover_source_documents, load_inventory_rows
 from rag_bsf.embeddings import HashingEmbedder
 from rag_bsf.retrieval import retrieve_context
-from rag_bsf.schemas import Chunk, RetrievalContext, SearchResult
+from rag_bsf.schemas import AnswerResult, Chunk, RetrievalContext, SearchResult
 from rag_bsf.text_processing import chunk_document
 from rag_bsf.vector_store import LocalVectorStore
 
@@ -186,6 +187,26 @@ def retrieve_rag_context(
         index_file=index_file,
     )
 
+def answer_question(
+    question: str,
+    top_k: int = 5,
+    candidate_k: int = 20,
+    metadata_filters: dict[str, str] | None = None,
+    min_confidence: float = 0.18,
+    index_file: Path = VECTOR_INDEX_FILE,
+) -> AnswerResult:
+    retrieved = retrieve_rag_context(
+        question,
+        top_k=top_k,
+        candidate_k=candidate_k,
+        metadata_filters=metadata_filters,
+        index_file=index_file,
+    )
+    return generate_grounded_answer(
+        question,
+        retrieved,
+        min_confidence=min_confidence,
+    )
 
 def validate_document_collection(root_dir: Path = DOCUMENTS_DIR) -> dict[str, int]:
     rows = load_inventory_rows(_inventory_file_for_root(root_dir))

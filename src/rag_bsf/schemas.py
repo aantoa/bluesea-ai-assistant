@@ -78,3 +78,37 @@ class RetrievalContext:
                 for result in self.results
             ],
         }
+    
+@dataclass
+class AnswerSource:
+    source_label: str
+    document_code: str
+    title: str
+    filename: str
+    section: str
+    category: str
+    owner: str
+    score: float
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass
+class AnswerResult:
+    question: str
+    answer: str
+    sources: list[AnswerSource]
+    prompt: str
+    grounded: bool
+    fallback_reason: str = ""
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "question": self.question,
+            "answer": self.answer,
+            "sources": [source.to_dict() for source in self.sources],
+            "prompt": self.prompt,
+            "grounded": self.grounded,
+            "fallback_reason": self.fallback_reason,
+        }
