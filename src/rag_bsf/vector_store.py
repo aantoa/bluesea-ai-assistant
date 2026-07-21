@@ -75,5 +75,13 @@ class LocalVectorStore:
             result.source_label = f"S{idx}"
         return results
 
+    def all_results(self) -> list[SearchResult]:
+        """Return every indexed chunk as a SearchResult for lexical/hybrid retrieval."""
+
+        return [
+            SearchResult(chunk=item.chunk, score=0.0, source_label=f"S{idx}")
+            for idx, item in enumerate(self._items, start=1)
+        ]
+    
     def __len__(self) -> int:
         return len(self._items)

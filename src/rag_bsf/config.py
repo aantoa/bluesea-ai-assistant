@@ -39,6 +39,41 @@ CATEGORY_DIR_BY_NAME.update(
 
 
 MARKDOWN_SOURCE_DIRS = tuple(DOCUMENTS_DIR / folder for folder in CATEGORY_DIR_BY_NAME)
+SUPPORTED_SOURCE_EXTENSIONS = (
+    ".md",
+    ".markdown",
+    ".txt",
+    ".html",
+    ".htm",
+    ".json",
+    ".csv",
+    ".tsv",
+    ".docx",
+    ".pptx",
+    ".xlsx",
+    ".pdf",
+)
+
+SOURCE_EXTENSION_BY_FORMAT = {
+    "CSV": ".csv",
+    "DOC": ".docx",
+    "DOCX": ".docx",
+    "EXCEL": ".xlsx",
+    "HTML": ".html",
+    "HTM": ".html",
+    "JSON": ".json",
+    "MARKDOWN": ".md",
+    "MD": ".md",
+    "PDF": ".pdf",
+    "PPT": ".pptx",
+    "PPTX": ".pptx",
+    "POWERPOINT": ".pptx",
+    "TSV": ".tsv",
+    "TXT": ".txt",
+    "WORD": ".docx",
+    "XLS": ".xlsx",
+    "XLSX": ".xlsx",
+}
 
 INVENTORY_FILE = PROCESSED_DIR / "inventory.json"
 CHUNKS_FILE = PROCESSED_DIR / "chunks.jsonl"

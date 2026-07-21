@@ -4,7 +4,7 @@ import re
 from pathlib import Path
 
 from rag_bsf.config import DEFAULT_CHUNK_CHARS, DEFAULT_CHUNK_OVERLAP, DOCUMENTS_DIR
-from rag_bsf.document_loader import extract_front_matter, read_markdown
+from rag_bsf.document_loader import extract_front_matter, read_document_text
 from rag_bsf.schemas import Chunk, DocumentRecord
 
 
@@ -102,7 +102,7 @@ def chunk_document(
     overlap: int = DEFAULT_CHUNK_OVERLAP,
 ) -> list[Chunk]:
     path = root_dir / record.path
-    clean_text = clean_markdown(read_markdown(path))
+    clean_text = clean_markdown(read_document_text(path))
     chunks: list[Chunk] = []
     chunk_number = 1
 
@@ -121,6 +121,7 @@ def chunk_document(
                         "owner": record.owner,
                         "filename": record.filename,
                         "path": record.path,
+                        "source_format": record.metadata.get("source_format", Path(record.filename).suffix.lower().lstrip(".")),
                         "section": section,
                         "chunk_number": chunk_number,
                     },

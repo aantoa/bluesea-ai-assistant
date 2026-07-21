@@ -7,6 +7,7 @@ from rag_bsf.rag_pipeline import (
     build_inventory,
     index_chunks,
     process_documents,
+    retrieve_rag_context,
     search_index,
     validate_document_collection,
 )
@@ -25,6 +26,17 @@ def main(argv: list[str] | None = None) -> int:
     search_parser.add_argument("question", help="Question or search text to compare against indexed chunks.")
     search_parser.add_argument("--top-k", type=int, default=5, help="Number of nearest chunks to show.")
     
+    retrieve_parser = subparsers.add_parser("retrieve", help="Retrieve reranked RAG context from the local vector index.")
+    retrieve_parser.add_argument("question", help="Question to transform into retrieval context.")
+    retrieve_parser.add_argument("--top-k", type=int, default=5, help="Number of final context chunks.")
+    retrieve_parser.add_argument("--candidate-k", type=int, default=20, help="Number of semantic candidates before reranking.")
+    retrieve_parser.add_argument(
+        "--filter",
+        action="append",
+        default=[],
+        help="Metadata filter in key=value form. Can be repeated, for example --filter category='Human Resources'.",
+    )
+
     args = parser.parse_args(argv)
 
     if args.command == "inventory":
@@ -36,6 +48,7 @@ def main(argv: list[str] | None = None) -> int:
         stats = validate_document_collection()
         print(
             "Document validation completed: "
+            f"{stats['source_available']}/{stats['expected']} source files, "
             f"{stats['final_available']}/{stats['expected']} final files, "
             f"{stats['markdown_available']}/{stats['expected']} Markdown files, "
             f"{stats['missing']} missing."
@@ -74,8 +87,42 @@ def main(argv: list[str] | None = None) -> int:
             )
         return 0
 
+    if args.command == "retrieve":
+        try:
+            metadata_filters = _parse_metadata_filters(args.filter)
+        except ValueError as exc:
+            parser.error(str(exc))
+        retrieved = retrieve_rag_context(
+            args.question,
+            top_k=args.top_k,
+            candidate_k=args.candidate_k,
+            metadata_filters=metadata_filters,
+        )
+        if not retrieved.results:
+            print("No context chunks found. Check the vector index or relax metadata filters.")
+            return 0
+
+        filter_label = ", ".join(f"{key}={value}" for key, value in retrieved.applied_filters.items()) or "none"
+        print(
+            "Retrieval completed: "
+            f"{retrieved.candidate_count} semantic candidates, "
+            f"{retrieved.filtered_count} after filters, "
+            f"{len(retrieved.results)} context chunks, filters={filter_label}."
+        )
+        print()
+        print(retrieved.context)
+        return 0
+
     return 1
 
+def _parse_metadata_filters(raw_filters: list[str]) -> dict[str, str]:
+    filters: dict[str, str] = {}
+    for raw_filter in raw_filters:
+        if "=" not in raw_filter:
+            raise ValueError(f"Invalid metadata filter '{raw_filter}'. Use key=value.")
+        key, value = raw_filter.split("=", 1)
+        filters[key.strip()] = value.strip()
+    return filters
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv[1:]))

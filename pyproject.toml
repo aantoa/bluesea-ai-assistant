@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "bluesea-ai-assistant"
 version = "0.1.0"
-description = "Document inventory and processing tools for BlueSea Foods corporate Markdown documents."
+description = "Document inventory, extraction, indexing and retrieval tools for BlueSea Foods corporate documents."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = []
