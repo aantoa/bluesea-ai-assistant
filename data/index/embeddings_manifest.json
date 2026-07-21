@@ -1,0 +1,10 @@
+{
+  "generated_at": "2026-07-21T13:22:42.527961+00:00",
+  "source_chunks_file": "/Users/anahiantoalzamora/Documents/Cursos/Alura/Challenge/bluesea-ai-assistant/data/processed/chunks.jsonl",
+  "source_chunks_sha256": "35ae03e56120966b51d3d7a1ea705f79c824cedec3be8b2daa261d1e5a916924",
+  "vector_index_file": "/Users/anahiantoalzamora/Documents/Cursos/Alura/Challenge/bluesea-ai-assistant/data/index/vectors.jsonl",
+  "embedding_model": "local-hashing-v1",
+  "dimensions": 384,
+  "chunks": 269,
+  "vectors": 269
+}

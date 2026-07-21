@@ -18,7 +18,6 @@ class DocumentRecord:
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
-
 @dataclass
 class Chunk:
     chunk_id: str
@@ -28,3 +27,25 @@ class Chunk:
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
+
+@dataclass
+class IndexedVector:
+    chunk: Chunk
+    vector: list[float]
+    embedding_model: str
+    dimensions: int
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "chunk": self.chunk.to_dict(),
+            "vector": self.vector,
+            "embedding_model": self.embedding_model,
+            "dimensions": self.dimensions,
+        }
+
+
+@dataclass
+class SearchResult:
+    chunk: Chunk
+    score: float
+    source_label: str
