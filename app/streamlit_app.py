@@ -350,7 +350,7 @@ def render_header() -> None:
                 </div>
                 <div class="user-block">
                     <span class="secure-pill">Entorno Corporativo</span>
-                    <span class="avatar">MP</span>
+                    <span class="avatar">AA</span>
                     <div>
                         <strong>Amalia Anto</strong>
                         <small>Analista Senior</small>
