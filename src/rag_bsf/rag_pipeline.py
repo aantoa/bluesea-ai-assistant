@@ -85,22 +85,37 @@ def process_documents(root_dir: Path = DOCUMENTS_DIR) -> dict[str, int]:
             fh.write("\n")
 
     build_inventory(root_dir=root_dir)
-    return {"documents": len(records), "chunks": len(all_chunks)}
+    return {
+        "documents": len(records),
+        "chunks": len(all_chunks),
+        "documents_with_chunks": len({chunk.document_id for chunk in all_chunks}),
+    }
 
 
 def _records_for_processing(root_dir: Path) -> list:
     rows = load_inventory_rows(_inventory_file_for_root(root_dir))
+    discovered_records = discover_source_documents(root_dir=root_dir)
+
     if not rows:
-        return discover_source_documents(root_dir=root_dir)
+        return discovered_records
 
     records = []
     seen_paths: set[Path] = set()
+
     for row in rows:
         matched_path = _first_existing_path(_candidate_source_paths(row, root_dir))
         if not matched_path or matched_path in seen_paths:
             continue
         records.append(build_document_record(matched_path, root_dir=root_dir))
         seen_paths.add(matched_path)
+
+    for record in discovered_records:
+        full_path = root_dir / record.path
+        if full_path in seen_paths:
+            continue
+        records.append(record)
+        seen_paths.add(full_path)
+
     return records
 
 def load_chunks(chunks_file: Path = CHUNKS_FILE) -> list[Chunk]:

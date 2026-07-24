@@ -1,8 +1,14 @@
 # BlueSea AI Assistant dependencies
 #
-# Current tickets use only the Python standard library at runtime.
-# This file lets Colab and evaluators install the local package with one command.
+# Core pipeline uses the Python standard library at runtime.
+# Streamlit is used by the simple web interface added in Ticket 6.
 -e .
+streamlit>=1.36.0
 
 # Test runner used by the repository tests.
 pytest>=8.0.0
+
+pypdf
+python-docx
+python-pptx
+openpyxl

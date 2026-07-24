@@ -78,7 +78,8 @@ class RetrievalContext:
                 for result in self.results
             ],
         }
-    
+
+
 @dataclass
 class AnswerSource:
     source_label: str
@@ -92,6 +93,19 @@ class AnswerSource:
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "AnswerSource":
+        return cls(
+            source_label=str(payload.get("source_label", "")),
+            document_code=str(payload.get("document_code", "")),
+            title=str(payload.get("title", "")),
+            filename=str(payload.get("filename", "")),
+            section=str(payload.get("section", "")),
+            category=str(payload.get("category", "")),
+            owner=str(payload.get("owner", "")),
+            score=float(payload.get("score", 0.0)),
+        )
 
 
 @dataclass
@@ -112,3 +126,14 @@ class AnswerResult:
             "grounded": self.grounded,
             "fallback_reason": self.fallback_reason,
         }
+
+    @classmethod
+    def from_dict(cls, payload: dict[str, Any]) -> "AnswerResult":
+        return cls(
+            question=str(payload.get("question", "")),
+            answer=str(payload.get("answer", "")),
+            sources=[AnswerSource.from_dict(source) for source in payload.get("sources", [])],
+            prompt=str(payload.get("prompt", "")),
+            grounded=bool(payload.get("grounded", False)),
+            fallback_reason=str(payload.get("fallback_reason", "")),
+        )

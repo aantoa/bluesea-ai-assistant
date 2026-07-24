@@ -1,5 +1,5 @@
 from rag_bsf.answer_generation import build_answer_prompt, generate_grounded_answer
-from rag_bsf.schemas import Chunk, RetrievalContext, SearchResult
+from rag_bsf.schemas import AnswerResult, Chunk, RetrievalContext, SearchResult
 
 
 def _retrieved_context(score=0.82):
@@ -83,3 +83,17 @@ def test_generate_grounded_answer_falls_back_with_low_confidence():
     assert not answer.grounded
     assert answer.fallback_reason == "low_retrieval_confidence"
     assert "No encontre esta informacion" in answer.answer
+
+
+def test_answer_result_round_trip_supports_interface_history():
+    original = generate_grounded_answer(
+        "cuantos dias de vacaciones tengo",
+        _retrieved_context(),
+        min_confidence=0.2,
+    )
+
+    restored = AnswerResult.from_dict(original.to_dict())
+
+    assert restored.answer == original.answer
+    assert restored.grounded is True
+    assert restored.sources[0].filename == "BSF-HR-003_Leave_and_Benefits_Policy.docx"

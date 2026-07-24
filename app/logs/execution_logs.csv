@@ -1,0 +1,2 @@
+timestamp,question,detected_area,documents_used,response_time_seconds,status,confidence
+2026-07-23T13:38:17,que es HACCP?,Quality,,0.0,no_evidence,Low

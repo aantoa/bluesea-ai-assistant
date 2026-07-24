@@ -223,3 +223,6 @@ documents/**/*
 !documents/**/.gitkeep
 
 .DS_Store
+
+.agents/
+.streamlit/s
