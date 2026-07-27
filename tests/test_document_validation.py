@@ -116,8 +116,8 @@ def test_processing_uses_same_flexible_inventory_match_as_validation(tmp_path, m
     inventory_file.write_text(
         "\n".join(
             [
-                "document_id,title,format,category,file_name",
-                "BSF-CORP-001,Corporate Profile,JSON,Corporate,BSF-CORP-001_Corporate_Profile.docx",
+                "document_code,document_title,business_area,document_category,current_file_name,format,current_relative_path",
+                "BSF-CORP-001,Corporate Profile,Corporate,Corporate reference,BSF-CORP-001_Corporate_Profile.docx,JSON,",
             ]
         ),
         encoding="utf-8",

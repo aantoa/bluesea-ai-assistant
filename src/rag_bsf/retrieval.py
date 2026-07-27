@@ -15,8 +15,23 @@ SEMANTIC_WEIGHT = 0.65
 RERANK_WEIGHT = 0.35
 LEXICAL_CANDIDATE_MULTIPLIER = 2
 QUERY_EXPANSIONS = {
+    "smeta": "sedex members ethical trade audit auditoria etica laboral social compliance supply chain workplace standards",
+    "haccp": "hazard analysis critical control points food safety inocuidad peligros puntos criticos control",
+    "brcgs": "food safety certification calidad inocuidad certificacion",
+    "basc": "supply chain security cadena suministro seguridad comercio internacional",
+    "msc": "marine stewardship council chain of custody pesca sostenible cadena custodia",
+    "ifs": "international featured standards food safety calidad inocuidad",
     "cuantos": "how much entitlement allowance available",
     "dias": "days entitlement allowance",
+    "temperatura": "temperature cold chain freezing chilling frozen chilled storage transport monitoring limits corrective action",
+    "temperaturas": "temperature cold chain freezing chilling frozen chilled storage transport monitoring limits corrective action",
+    "frio": "cold chain temperature chilling frozen storage transport monitoring",
+    "congelado": "freezing frozen temperature storage cold chain",
+    "cadena": "cold chain temperature storage transport monitoring traceability",
+    "seguridad": "security safety responsibilities hse supply chain security access control incident prevention",
+    "responsabilidad": "responsibility responsibilities accountable owner role duties",
+    "responsabilidades": "responsibilities accountable owner role duties",
+    "personal": "employee personnel staff worker responsibility role",
     "vacaciones": "licencia remunerada descanso dias habiles paid leave annual leave entitlement how much",
     "vacacion": "licencia remunerada descanso dias habiles paid leave annual leave entitlement how much",
     "licencia": "paid leave licencia remunerada descanso",
@@ -280,6 +295,28 @@ def intent_match_bonus(query_terms: set[str], text: str) -> float:
         )
         if any(marker in normalized_text for marker in irrelevant_hr_markers):
             bonus -= 0.35
+
+    cold_chain_terms = {"temperatura", "temperaturas", "frio", "congelado", "cadena", "cold", "chain"}
+    if query_terms & cold_chain_terms:
+        if "cold chain" in normalized_text:
+            bonus += 0.30
+        if "temperature" in normalized_text or "temperatura" in normalized_text:
+            bonus += 0.25
+        if "quick answers for ai retrieval" in normalized_text:
+            bonus += 0.20
+        if "document inventory" in normalized_text or "ownership matrix" in normalized_text:
+            bonus -= 0.35
+
+    security_terms = {"seguridad", "responsabilidad", "responsabilidades", "security", "responsibilities"}
+    if query_terms & security_terms:
+        if "responsibilities" in normalized_text or "responsabilidades" in normalized_text:
+            bonus += 0.25
+        if "security" in normalized_text or "seguridad" in normalized_text:
+            bonus += 0.20
+        if "quick answers for ai retrieval" in normalized_text:
+            bonus += 0.15
+        if "document inventory" in normalized_text or "keywords" in normalized_text[:120]:
+            bonus -= 0.30
 
     return bonus
 

@@ -109,13 +109,6 @@ def _records_for_processing(root_dir: Path) -> list:
         records.append(build_document_record(matched_path, root_dir=root_dir))
         seen_paths.add(matched_path)
 
-    for record in discovered_records:
-        full_path = root_dir / record.path
-        if full_path in seen_paths:
-            continue
-        records.append(record)
-        seen_paths.add(full_path)
-
     return records
 
 def load_chunks(chunks_file: Path = CHUNKS_FILE) -> list[Chunk]:
