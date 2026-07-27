@@ -12,3 +12,10 @@ pypdf
 python-docx
 python-pptx
 openpyxl
+python-dotenv
+huggingface_hub
+transformers
+sentence-transformers
+
+numpy<2
+torch

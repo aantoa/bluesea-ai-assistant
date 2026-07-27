@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-07-27T15:26:01.488216+00:00",
+  "generated_at": "2026-07-27T22:32:09.878998+00:00",
   "source_chunks_file": "/Users/anahiantoalzamora/Documents/Cursos/Alura/Challenge/bluesea-ai-assistant/data/processed/chunks.jsonl",
   "source_chunks_sha256": "dc0c0e886942d6e7577421bf7bfb4c6c984c368f0f569628c857a4ef5d2e1fad",
   "vector_index_file": "/Users/anahiantoalzamora/Documents/Cursos/Alura/Challenge/bluesea-ai-assistant/data/index/vectors.jsonl",
-  "embedding_model": "local-hashing-v1",
+  "embedding_model": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
   "dimensions": 384,
   "chunks": 1473,
   "vectors": 1473

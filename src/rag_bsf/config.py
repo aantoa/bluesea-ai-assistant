@@ -13,10 +13,12 @@ INDEX_DIR = PROJECT_ROOT / "data" / "index"
 
 CATEGORY_DIR_BY_NAME = {
     "corporate": "Corporate Documents",
+    "finance": "Finance",
     "hr": "Human Resources",
     "hse": "Health Safety and Environment",
     "inventory": "Document Control and Inventory",
     "it": "Information Technology",
+    "legal": "Legal / Compliance",
     "operations": "Operations",
     "quality": "Quality and Certifications",
 }
@@ -29,8 +31,13 @@ CATEGORY_DIR_BY_NAME.update(
     {
         "Corporate": "corporate",
         "Document Control": "inventory",
+        "Finance": "finance",
         "Human Resources": "hr",
         "HSE": "hse",
+        "Legal": "legal",
+        "Legal / Compliance": "legal",
+        "Legal and Compliance": "legal",
+        "Compliance": "legal",
         "Operations": "operations",
         "Quality and Certifications": "quality",
         "Technology": "it",
@@ -85,3 +92,4 @@ EMBEDDINGS_MANIFEST_FILE = INDEX_DIR / "embeddings_manifest.json"
 DEFAULT_CHUNK_CHARS = 900
 DEFAULT_CHUNK_OVERLAP = 150
 DEFAULT_EMBEDDING_DIMENSIONS = 384
+DEFAULT_EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"

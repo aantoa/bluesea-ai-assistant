@@ -83,5 +83,11 @@ class LocalVectorStore:
             for idx, item in enumerate(self._items, start=1)
         ]
     
+    def embedding_models(self) -> set[str]:
+        return {item.embedding_model for item in self._items}
+
+    def dimensions(self) -> set[int]:
+        return {item.dimensions for item in self._items}
+    
     def __len__(self) -> int:
         return len(self._items)

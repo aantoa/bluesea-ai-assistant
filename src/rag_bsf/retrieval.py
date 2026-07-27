@@ -4,7 +4,7 @@ import re
 from pathlib import Path
 
 from rag_bsf.config import VECTOR_INDEX_FILE
-from rag_bsf.embeddings import HashingEmbedder, TOKEN_RE
+from rag_bsf.embeddings import get_embedder, TOKEN_RE
 from rag_bsf.schemas import RetrievalContext, SearchResult
 from rag_bsf.vector_store import LocalVectorStore
 
@@ -28,6 +28,10 @@ QUERY_EXPANSIONS = {
     "frio": "cold chain temperature chilling frozen storage transport monitoring",
     "congelado": "freezing frozen temperature storage cold chain",
     "cadena": "cold chain temperature storage transport monitoring traceability",
+    "estructura": "organizational structure organization chart departments reporting lines company structure roles",
+    "organizacional": "organizational structure organization chart departments reporting lines company structure roles",
+    "organigrama": "organizational structure organization chart departments reporting lines company structure roles",
+    "departamentos": "departments organizational structure divisions areas",
     "seguridad": "security safety responsibilities hse supply chain security access control incident prevention",
     "responsabilidad": "responsibility responsibilities accountable owner role duties",
     "responsabilidades": "responsibilities accountable owner role duties",
@@ -62,7 +66,7 @@ def retrieve_context(
         raise ValueError("candidate_k must be greater than zero.")
 
     filters = normalize_metadata_filters(metadata_filters or {})
-    embedder = HashingEmbedder()
+    embedder = get_embedder()
     store = LocalVectorStore(index_file)
     store.load()
 

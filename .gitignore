@@ -226,3 +226,5 @@ documents/**/*
 
 .agents/
 .streamlit/s
+
+.env

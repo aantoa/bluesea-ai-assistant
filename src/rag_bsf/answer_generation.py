@@ -1,6 +1,16 @@
 from __future__ import annotations
 
 import re
+import os
+
+from pathlib import Path
+from dotenv import load_dotenv
+
+for parent in Path(__file__).resolve().parents:
+    env_path = parent / ".env"
+    if env_path.exists():
+        load_dotenv(env_path)
+        break
 
 from rag_bsf.embeddings import TOKEN_RE
 from rag_bsf.retrieval import expand_query
@@ -35,6 +45,103 @@ DEFAULT_AREA_CONTACTS = {
     "Technology": "IT Service Desk Lead",
 }
 
+def generate_llm_answer(prompt: str) -> str:
+    hf_token = os.getenv("HF_TOKEN", "").strip() or os.getenv("HUGGINGFACEHUB_API_TOKEN", "").strip()
+    hf_model = os.getenv("HF_MODEL", "mistralai/Mistral-7B-Instruct-v0.3").strip()
+    max_tokens = int(os.getenv("HF_MAX_NEW_TOKENS", "450"))
+    temperature = float(os.getenv("HF_TEMPERATURE", "0.1"))
+
+    if not hf_token:
+        return ""
+
+    try:
+        from huggingface_hub import InferenceClient
+    except ImportError:
+        return ""
+
+    try:
+        client = InferenceClient(
+            model=hf_model,
+            token=hf_token,
+        )
+
+        response = client.chat_completion(
+            messages=[
+                {
+                    "role": "system",
+                    "content": (
+                        "Eres un asistente documental de BlueSea Foods. "
+                        "Responde siempre en el mismo idioma de la pregunta del usuario. "
+                        "Si la pregunta esta en espanol, responde en espanol aunque el contexto este en ingles. "
+                        "Usa unicamente el contexto proporcionado. "
+                        "No inventes informacion. "
+                        "Cita las fuentes usando [S1], [S2], etc."
+                    ),
+                },
+                {"role": "user", "content": prompt},
+            ],
+            max_tokens=max_tokens,
+            temperature=temperature,
+        )
+
+        return response.choices[0].message.content.strip()
+
+    except Exception as exc:
+        if os.getenv("HF_DEBUG", "").lower() in {"1", "true", "yes"}:
+            print(f"[HF_DEBUG] chat_completion error: {exc}")
+
+        try:
+            response = client.text_generation(
+                format_hf_instruction_prompt(prompt),
+                max_new_tokens=max_tokens,
+                temperature=temperature,
+                return_full_text=False,
+            )
+
+            if isinstance(response, str):
+                return response.strip()
+
+            return getattr(response, "generated_text", "").strip()
+
+        except Exception as text_exc:
+            if os.getenv("HF_DEBUG", "").lower() in {"1", "true", "yes"}:
+                print(f"[HF_DEBUG] text_generation error: {text_exc}")
+            return ""
+
+def format_hf_instruction_prompt(prompt: str) -> str:
+    system_prompt = (
+        "Eres un asistente documental de BlueSea Foods. "
+        "Responde siempre en el mismo idioma de la pregunta del usuario. "
+        "Si la pregunta esta en espanol, responde en espanol aunque el contexto este en ingles. "
+        "Usa unicamente el contexto proporcionado. "
+        "No inventes informacion. "
+        "Cita las fuentes usando [S1], [S2], etc."
+    )
+
+    return f"<s>[INST] {system_prompt}\n\n{prompt.strip()} [/INST]"
+
+
+def should_use_llm() -> bool:
+    return bool(
+        os.getenv("HF_TOKEN", "").strip()
+        or os.getenv("HUGGINGFACEHUB_API_TOKEN", "").strip()
+    )
+
+def with_references(answer: str, sources: list[AnswerSource]) -> str:
+    references = "; ".join(
+        f"[{source.source_label}] {source.filename}, seccion {source.section}"
+        for source in sources
+    )
+
+    if not references:
+        return answer
+
+    return f"{answer}\n\nFuentes: {references}."
+
+
+def debug_llm_fallback(reason: str) -> None:
+    if os.getenv("HF_DEBUG", "").lower() in {"1", "true", "yes"}:
+        print(f"[HF_DEBUG] Using extractive fallback: {reason}")
 
 def generate_grounded_answer(
     question: str,
@@ -60,6 +167,32 @@ def generate_grounded_answer(
             fallback_reason=fallback_reason,
         )
 
+    # Intentar primero con el LLM, usando TODO el contexto recuperado (ya
+    # validado por el umbral de confianza semantica en fallback_reason_for).
+    # No exigimos aqui coincidencia lexica entre la pregunta y las oraciones:
+    # esa exigencia es la que bloqueaba preguntas en espanol contra documentos
+    # en ingles cuando el termino no estaba en el diccionario de expansion de
+    # retrieval.py. El propio prompt (build_answer_prompt) ya instruye al LLM
+    # a responder "No encontre esta informacion..." si el contexto no alcanza,
+    # asi que no hay riesgo adicional de alucinacion por saltarnos ese filtro.
+    llm_answer = generate_llm_answer(prompt) if should_use_llm() else ""
+
+    if llm_answer:
+        sources = build_answer_sources(retrieved.results)
+        answer = with_references(llm_answer, sources)
+        return AnswerResult(
+            question=question,
+            answer=answer,
+            sources=sources,
+            prompt=prompt,
+            grounded=True,
+        )
+
+    debug_llm_fallback("empty_llm_answer" if should_use_llm() else "llm_disabled")
+
+    # Respaldo extractivo (sin LLM configurado o el LLM no devolvio nada):
+    # aqui si se requiere coincidencia lexica entre la pregunta y las
+    # oraciones candidatas, ya que no hay modelo que traduzca/interprete.
     selected_sentences = select_supported_sentences(
         question,
         retrieved.results,
@@ -75,14 +208,9 @@ def generate_grounded_answer(
             fallback_reason="no_supported_sentences",
         )
 
-    answer = format_answer(selected_sentences)
     used_labels = source_labels_in(selected_sentences)
     sources = build_answer_sources(retrieved.results, allowed_labels=used_labels)
-    references = "; ".join(
-        f"[{source.source_label}] {source.filename}, seccion {source.section}"
-        for source in sources
-    )
-    answer = f"{answer}\n\nFuentes: {references}."
+    answer = with_references(format_answer(selected_sentences), sources)
 
     return AnswerResult(
         question=question,

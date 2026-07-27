@@ -22,7 +22,7 @@ from rag_bsf.config import (
 )
 from rag_bsf.answer_generation import generate_grounded_answer
 from rag_bsf.document_loader import build_document_record, discover_source_documents, load_inventory_rows
-from rag_bsf.embeddings import HashingEmbedder
+from rag_bsf.embeddings import get_embedder
 from rag_bsf.retrieval import retrieve_context
 from rag_bsf.schemas import AnswerResult, Chunk, RetrievalContext, SearchResult
 from rag_bsf.text_processing import chunk_document
@@ -138,7 +138,7 @@ def index_chunks(
     manifest_file: Path = EMBEDDINGS_MANIFEST_FILE,
 ) -> dict[str, int | str]:
     chunks = load_chunks(chunks_file)
-    embedder = HashingEmbedder()
+    embedder = get_embedder()
     store = LocalVectorStore(index_file)
 
     for chunk in chunks:
@@ -172,7 +172,7 @@ def index_chunks(
 
 
 def search_index(question: str, top_k: int = 5, index_file: Path = VECTOR_INDEX_FILE) -> list[SearchResult]:
-    embedder = HashingEmbedder()
+    embedder = get_embedder()
     store = LocalVectorStore(index_file)
     store.load()
     if len(store) == 0:
