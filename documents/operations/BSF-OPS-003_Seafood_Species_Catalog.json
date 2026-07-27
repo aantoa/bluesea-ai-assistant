@@ -1,0 +1,928 @@
+{
+  "document_control": {
+    "document_code": "BSF-OPS-003",
+    "document_title": "Seafood Species Catalog",
+    "source_review_format": "JSON",
+    "target_export_format": "JSON",
+    "version": "1.0",
+    "status": "Draft for Review",
+    "owner_department": "Operations",
+    "process_owner": "Operations Manager",
+    "technical_reviewers": [
+      "Quality Assurance Manager",
+      "Food Safety Coordinator",
+      "Procurement Coordinator",
+      "Traceability Officer"
+    ],
+    "approval_authority": "General Manager",
+    "effective_date": "To be assigned",
+    "review_frequency": "Annual or when new species, suppliers, markets, or certification requirements are added",
+    "confidentiality": "Internal Use Only",
+    "keywords": [
+      "seafood species",
+      "species catalog",
+      "traceability",
+      "MSC Chain of Custody",
+      "HACCP",
+      "BRCGS Food Safety",
+      "IFS Food",
+      "BASC",
+      "approved species",
+      "cold chain",
+      "receiving inspection",
+      "export documentation"
+    ]
+  },
+  "catalog_metadata": {
+    "company": "BlueSea Foods S.A.C.",
+    "catalog_purpose": "Controlled master data for seafood species received, processed, stored, shipped, and referenced in traceability, quality, food safety, procurement, and certification records.",
+    "scope": [
+      "Raw material receiving",
+      "Supplier and vessel approval",
+      "Cold chain control",
+      "Processing and packing",
+      "Finished product labeling",
+      "Export documentation",
+      "Customer specification review",
+      "Traceability and recall exercises"
+    ],
+    "excluded_scope": [
+      "Pharmaceutical or nutraceutical products",
+      "Aquarium species",
+      "Species not approved by BlueSea Foods S.A.C.",
+      "Species with incomplete legal origin documentation"
+    ],
+    "data_owner": "Operations Department",
+    "data_steward": "Traceability Officer",
+    "change_control_rule": "Any addition, suspension, name change, code change, certification change, or market restriction must be reviewed by Operations, Quality Assurance, and Procurement before use in operational records.",
+    "record_linkages": [
+      "BSF-OPS-001 - Cold Chain Control Register",
+      "BSF-OPS-002 - Authorized Fishing Vessels",
+      "BSF-OPS-004 - Seafood Receiving and Inspection Procedure",
+      "BSF-QMS-002 - Certification and Compliance Overview",
+      "BSF-QMS-003 - Corrective Action and Nonconformity Procedure",
+      "BSF-INV-001 - Document Inventory",
+      "BSF-INV-002 - Document Ownership Matrix"
+    ]
+  },
+  "classification_rules": {
+    "species_code_format": "SPC-000",
+    "approval_status_values": [
+      "Approved",
+      "Conditional",
+      "Suspended",
+      "Under Review"
+    ],
+    "risk_level_values": [
+      "Low",
+      "Medium",
+      "High"
+    ],
+    "origin_type_values": [
+      "Wild-caught",
+      "Farmed",
+      "Mixed"
+    ],
+    "cold_chain_categories": [
+      "Chilled",
+      "Frozen",
+      "Superfrozen"
+    ],
+    "allergen_declaration_rule": "Fish, crustaceans, and mollusks must be declared according to customer, market, and legal labeling requirements.",
+    "msc_claim_rule": "MSC claim may only be used when the species, supplier, vessel, batch, and chain of custody evidence are approved and traceable.",
+    "haccp_rule": "Each species must be linked to the applicable hazard assessment for biological, chemical, physical, allergen, and temperature control risks."
+  },
+  "field_dictionary": [
+    {
+      "field": "species_code",
+      "description": "Internal unique species identifier used across operational, quality, and traceability records.",
+      "required": true
+    },
+    {
+      "field": "common_name",
+      "description": "Commercial name used in internal documents and customer-facing specifications.",
+      "required": true
+    },
+    {
+      "field": "scientific_name",
+      "description": "Scientific name used for regulatory, traceability, and export documentation.",
+      "required": true
+    },
+    {
+      "field": "species_group",
+      "description": "Operational grouping for controls, hazards, allergens, and processing requirements.",
+      "required": true
+    },
+    {
+      "field": "origin_type",
+      "description": "Indicates whether the species is wild-caught, farmed, or may be received from both origins.",
+      "required": true
+    },
+    {
+      "field": "approved_product_forms",
+      "description": "Approved presentations for receiving, processing, storage, or sale.",
+      "required": true
+    },
+    {
+      "field": "temperature_control",
+      "description": "Target and maximum temperature conditions for receiving and storage.",
+      "required": true
+    },
+    {
+      "field": "certification_applicability",
+      "description": "Certification programs that may apply to the species and related supply chain.",
+      "required": true
+    },
+    {
+      "field": "documentation_required",
+      "description": "Minimum documents required before acceptance or release.",
+      "required": true
+    },
+    {
+      "field": "approval_status",
+      "description": "Current authorization status for operational use.",
+      "required": true
+    }
+  ],
+  "species": [
+    {
+      "species_code": "SPC-001",
+      "common_name": "Peruvian Anchovy",
+      "spanish_name": "Anchoveta",
+      "scientific_name": "Engraulis ringens",
+      "species_group": "Small pelagic fish",
+      "origin_type": "Wild-caught",
+      "typical_fishing_area": [
+        "FAO 87 - Southeast Pacific"
+      ],
+      "approved_product_forms": [
+        "Whole round frozen",
+        "Headed and gutted frozen",
+        "Fillet frozen"
+      ],
+      "allergen_category": "Fish",
+      "temperature_control": {
+        "cold_chain_category": "Frozen",
+        "target_receiving_temperature_c": -18,
+        "maximum_receiving_temperature_c": -15,
+        "storage_temperature_c": -18,
+        "temperature_notes": "Temperature deviations must be evaluated before acceptance."
+      },
+      "quality_controls": [
+        "Sensory inspection",
+        "Foreign matter check",
+        "Temperature verification",
+        "Histamine risk screening when applicable",
+        "Lot traceability review"
+      ],
+      "food_safety_hazards": [
+        "Histamine formation",
+        "Temperature abuse",
+        "Physical contamination",
+        "Allergen mislabeling"
+      ],
+      "certification_applicability": {
+        "msc_chain_of_custody": "Applicable only when the certified supply chain is verified",
+        "haccp": "Applicable",
+        "brcgs_food_safety": "Applicable",
+        "ifs_food": "Applicable",
+        "basc": "Applicable for export chain security"
+      },
+      "documentation_required": [
+        "Supplier approval record",
+        "Catch certificate or legal origin evidence",
+        "Receiving inspection record",
+        "Cold chain record",
+        "Traceability lot record"
+      ],
+      "approval_status": "Approved",
+      "risk_level": "Medium",
+      "keywords": [
+        "anchovy",
+        "anchoveta",
+        "pelagic",
+        "frozen fish",
+        "MSC",
+        "histamine"
+      ]
+    },
+    {
+      "species_code": "SPC-002",
+      "common_name": "Mahi Mahi",
+      "spanish_name": "Perico",
+      "scientific_name": "Coryphaena hippurus",
+      "species_group": "Large pelagic fish",
+      "origin_type": "Wild-caught",
+      "typical_fishing_area": [
+        "FAO 87 - Southeast Pacific"
+      ],
+      "approved_product_forms": [
+        "Fillet frozen",
+        "Portions frozen",
+        "Loins frozen"
+      ],
+      "allergen_category": "Fish",
+      "temperature_control": {
+        "cold_chain_category": "Frozen",
+        "target_receiving_temperature_c": -18,
+        "maximum_receiving_temperature_c": -15,
+        "storage_temperature_c": -18,
+        "temperature_notes": "Maintain continuous frozen chain from receipt to dispatch."
+      },
+      "quality_controls": [
+        "Sensory inspection",
+        "Parasite visual check",
+        "Temperature verification",
+        "Net weight verification",
+        "Label and lot review"
+      ],
+      "food_safety_hazards": [
+        "Temperature abuse",
+        "Parasites",
+        "Allergen mislabeling",
+        "Physical contamination"
+      ],
+      "certification_applicability": {
+        "msc_chain_of_custody": "Not automatically applicable; verify certified source before claim",
+        "haccp": "Applicable",
+        "brcgs_food_safety": "Applicable",
+        "ifs_food": "Applicable",
+        "basc": "Applicable for export chain security"
+      },
+      "documentation_required": [
+        "Supplier approval record",
+        "Vessel authorization match",
+        "Receiving inspection record",
+        "Cold chain record",
+        "Export market specification"
+      ],
+      "approval_status": "Approved",
+      "risk_level": "Medium",
+      "keywords": [
+        "mahi mahi",
+        "perico",
+        "fillets",
+        "frozen",
+        "export"
+      ]
+    },
+    {
+      "species_code": "SPC-003",
+      "common_name": "Giant Squid",
+      "spanish_name": "Pota",
+      "scientific_name": "Dosidicus gigas",
+      "species_group": "Cephalopod",
+      "origin_type": "Wild-caught",
+      "typical_fishing_area": [
+        "FAO 87 - Southeast Pacific"
+      ],
+      "approved_product_forms": [
+        "Tentacles frozen",
+        "Rings frozen",
+        "Strips frozen",
+        "Blocks frozen"
+      ],
+      "allergen_category": "Mollusk",
+      "temperature_control": {
+        "cold_chain_category": "Frozen",
+        "target_receiving_temperature_c": -18,
+        "maximum_receiving_temperature_c": -15,
+        "storage_temperature_c": -18,
+        "temperature_notes": "Frozen integrity must be verified before processing."
+      },
+      "quality_controls": [
+        "Sensory inspection",
+        "Texture verification",
+        "Foreign matter check",
+        "Temperature verification",
+        "Glaze verification when applicable"
+      ],
+      "food_safety_hazards": [
+        "Temperature abuse",
+        "Foreign matter",
+        "Allergen mislabeling",
+        "Process water contamination"
+      ],
+      "certification_applicability": {
+        "msc_chain_of_custody": "Applicable only when certified source is verified",
+        "haccp": "Applicable",
+        "brcgs_food_safety": "Applicable",
+        "ifs_food": "Applicable",
+        "basc": "Applicable for export chain security"
+      },
+      "documentation_required": [
+        "Supplier approval record",
+        "Legal origin evidence",
+        "Receiving inspection record",
+        "Cold chain record",
+        "Processing lot record"
+      ],
+      "approval_status": "Approved",
+      "risk_level": "Medium",
+      "keywords": [
+        "giant squid",
+        "pota",
+        "cephalopod",
+        "mollusk",
+        "frozen"
+      ]
+    },
+    {
+      "species_code": "SPC-004",
+      "common_name": "Peruvian Scallop",
+      "spanish_name": "Concha de abanico",
+      "scientific_name": "Argopecten purpuratus",
+      "species_group": "Bivalve mollusk",
+      "origin_type": "Farmed",
+      "typical_fishing_area": [
+        "Sechura Bay",
+        "Peruvian coastal aquaculture zones"
+      ],
+      "approved_product_forms": [
+        "Half shell frozen",
+        "Roe-on meat frozen",
+        "Roe-off meat frozen"
+      ],
+      "allergen_category": "Mollusk",
+      "temperature_control": {
+        "cold_chain_category": "Frozen",
+        "target_receiving_temperature_c": -18,
+        "maximum_receiving_temperature_c": -15,
+        "storage_temperature_c": -18,
+        "temperature_notes": "Harvest area documentation and cold chain evidence must be complete."
+      },
+      "quality_controls": [
+        "Harvest area status verification",
+        "Sensory inspection",
+        "Shell fragment check",
+        "Temperature verification",
+        "Microbiological criteria review when applicable"
+      ],
+      "food_safety_hazards": [
+        "Biotoxins",
+        "Microbiological contamination",
+        "Shell fragments",
+        "Allergen mislabeling",
+        "Temperature abuse"
+      ],
+      "certification_applicability": {
+        "msc_chain_of_custody": "Not applicable unless specifically certified under a recognized program",
+        "haccp": "Applicable",
+        "brcgs_food_safety": "Applicable",
+        "ifs_food": "Applicable",
+        "basc": "Applicable for export chain security"
+      },
+      "documentation_required": [
+        "Aquaculture supplier approval",
+        "Harvest area authorization",
+        "Sanitary certificate when applicable",
+        "Receiving inspection record",
+        "Cold chain record"
+      ],
+      "approval_status": "Approved",
+      "risk_level": "High",
+      "keywords": [
+        "scallop",
+        "concha de abanico",
+        "bivalve",
+        "aquaculture",
+        "biotoxin"
+      ]
+    },
+    {
+      "species_code": "SPC-005",
+      "common_name": "Pacific White Shrimp",
+      "spanish_name": "Langostino blanco",
+      "scientific_name": "Penaeus vannamei",
+      "species_group": "Crustacean",
+      "origin_type": "Farmed",
+      "typical_fishing_area": [
+        "Approved aquaculture farms",
+        "Peruvian and regional supplier zones"
+      ],
+      "approved_product_forms": [
+        "Head-on shell-on frozen",
+        "Headless shell-on frozen",
+        "Peeled and deveined frozen",
+        "Cooked frozen"
+      ],
+      "allergen_category": "Crustacean",
+      "temperature_control": {
+        "cold_chain_category": "Frozen",
+        "target_receiving_temperature_c": -18,
+        "maximum_receiving_temperature_c": -15,
+        "storage_temperature_c": -18,
+        "temperature_notes": "Temperature, additive declaration, and farm approval must be checked before release."
+      },
+      "quality_controls": [
+        "Sensory inspection",
+        "Additive declaration review",
+        "Temperature verification",
+        "Size grading verification",
+        "Microbiological criteria review when applicable"
+      ],
+      "food_safety_hazards": [
+        "Veterinary drug residues",
+        "Sulfite declaration risk",
+        "Microbiological contamination",
+        "Allergen mislabeling",
+        "Temperature abuse"
+      ],
+      "certification_applicability": {
+        "msc_chain_of_custody": "Not applicable to farmed shrimp unless customer program requires separate certification",
+        "haccp": "Applicable",
+        "brcgs_food_safety": "Applicable",
+        "ifs_food": "Applicable",
+        "basc": "Applicable for export chain security"
+      },
+      "documentation_required": [
+        "Aquaculture supplier approval",
+        "Residue compliance evidence when required",
+        "Additive declaration",
+        "Receiving inspection record",
+        "Cold chain record"
+      ],
+      "approval_status": "Conditional",
+      "risk_level": "High",
+      "keywords": [
+        "shrimp",
+        "langostino",
+        "crustacean",
+        "aquaculture",
+        "sulfites"
+      ]
+    },
+    {
+      "species_code": "SPC-006",
+      "common_name": "Yellowfin Tuna",
+      "spanish_name": "Atun aleta amarilla",
+      "scientific_name": "Thunnus albacares",
+      "species_group": "Tuna and tuna-like species",
+      "origin_type": "Wild-caught",
+      "typical_fishing_area": [
+        "FAO 87 - Southeast Pacific",
+        "Approved external supply areas"
+      ],
+      "approved_product_forms": [
+        "Loins frozen",
+        "Steaks frozen",
+        "Saku blocks frozen"
+      ],
+      "allergen_category": "Fish",
+      "temperature_control": {
+        "cold_chain_category": "Frozen",
+        "target_receiving_temperature_c": -18,
+        "maximum_receiving_temperature_c": -15,
+        "storage_temperature_c": -18,
+        "temperature_notes": "Histamine control and time-temperature evidence are mandatory."
+      },
+      "quality_controls": [
+        "Histamine control review",
+        "Sensory inspection",
+        "Temperature verification",
+        "Color and texture verification",
+        "Traceability documentation review"
+      ],
+      "food_safety_hazards": [
+        "Histamine formation",
+        "Temperature abuse",
+        "Allergen mislabeling",
+        "Heavy metal customer limits when applicable"
+      ],
+      "certification_applicability": {
+        "msc_chain_of_custody": "Applicable only when certified source is verified",
+        "haccp": "Applicable",
+        "brcgs_food_safety": "Applicable",
+        "ifs_food": "Applicable",
+        "basc": "Applicable for export chain security"
+      },
+      "documentation_required": [
+        "Supplier approval record",
+        "Catch certificate or legal origin evidence",
+        "Histamine control evidence",
+        "Receiving inspection record",
+        "Cold chain record"
+      ],
+      "approval_status": "Under Review",
+      "risk_level": "High",
+      "keywords": [
+        "yellowfin tuna",
+        "atun",
+        "histamine",
+        "pelagic",
+        "loins"
+      ]
+    },
+    {
+      "species_code": "SPC-007",
+      "common_name": "Pacific Jack Mackerel",
+      "spanish_name": "Jurel",
+      "scientific_name": "Trachurus murphyi",
+      "species_group": "Small pelagic fish",
+      "origin_type": "Wild-caught",
+      "typical_fishing_area": [
+        "FAO 87 - Southeast Pacific"
+      ],
+      "approved_product_forms": [
+        "Whole round frozen",
+        "Headed and gutted frozen",
+        "Fillet frozen"
+      ],
+      "allergen_category": "Fish",
+      "temperature_control": {
+        "cold_chain_category": "Frozen",
+        "target_receiving_temperature_c": -18,
+        "maximum_receiving_temperature_c": -15,
+        "storage_temperature_c": -18,
+        "temperature_notes": "Frozen receiving condition must be checked by lot."
+      },
+      "quality_controls": [
+        "Sensory inspection",
+        "Temperature verification",
+        "Size grading verification",
+        "Foreign matter check",
+        "Lot traceability review"
+      ],
+      "food_safety_hazards": [
+        "Histamine formation",
+        "Temperature abuse",
+        "Physical contamination",
+        "Allergen mislabeling"
+      ],
+      "certification_applicability": {
+        "msc_chain_of_custody": "Applicable only when certified supply chain is verified",
+        "haccp": "Applicable",
+        "brcgs_food_safety": "Applicable",
+        "ifs_food": "Applicable",
+        "basc": "Applicable for export chain security"
+      },
+      "documentation_required": [
+        "Supplier approval record",
+        "Catch certificate or legal origin evidence",
+        "Receiving inspection record",
+        "Cold chain record"
+      ],
+      "approval_status": "Approved",
+      "risk_level": "Medium",
+      "keywords": [
+        "jack mackerel",
+        "jurel",
+        "pelagic",
+        "frozen fish",
+        "histamine"
+      ]
+    },
+    {
+      "species_code": "SPC-008",
+      "common_name": "Hake",
+      "spanish_name": "Merluza",
+      "scientific_name": "Merluccius gayi peruanus",
+      "species_group": "Demersal fish",
+      "origin_type": "Wild-caught",
+      "typical_fishing_area": [
+        "FAO 87 - Southeast Pacific"
+      ],
+      "approved_product_forms": [
+        "Fillet frozen",
+        "Portions frozen",
+        "Blocks frozen"
+      ],
+      "allergen_category": "Fish",
+      "temperature_control": {
+        "cold_chain_category": "Frozen",
+        "target_receiving_temperature_c": -18,
+        "maximum_receiving_temperature_c": -15,
+        "storage_temperature_c": -18,
+        "temperature_notes": "Receiving acceptance depends on temperature and organoleptic condition."
+      },
+      "quality_controls": [
+        "Sensory inspection",
+        "Parasite visual check",
+        "Temperature verification",
+        "Foreign matter check",
+        "Net weight verification"
+      ],
+      "food_safety_hazards": [
+        "Parasites",
+        "Temperature abuse",
+        "Physical contamination",
+        "Allergen mislabeling"
+      ],
+      "certification_applicability": {
+        "msc_chain_of_custody": "Applicable only when certified source is verified",
+        "haccp": "Applicable",
+        "brcgs_food_safety": "Applicable",
+        "ifs_food": "Applicable",
+        "basc": "Applicable for export chain security"
+      },
+      "documentation_required": [
+        "Supplier approval record",
+        "Legal origin evidence",
+        "Receiving inspection record",
+        "Cold chain record"
+      ],
+      "approval_status": "Approved",
+      "risk_level": "Medium",
+      "keywords": [
+        "hake",
+        "merluza",
+        "demersal",
+        "fillet",
+        "frozen"
+      ]
+    },
+    {
+      "species_code": "SPC-009",
+      "common_name": "Swordfish",
+      "spanish_name": "Pez espada",
+      "scientific_name": "Xiphias gladius",
+      "species_group": "Large pelagic fish",
+      "origin_type": "Wild-caught",
+      "typical_fishing_area": [
+        "FAO 87 - Southeast Pacific",
+        "Approved external supply areas"
+      ],
+      "approved_product_forms": [
+        "Loins frozen",
+        "Steaks frozen",
+        "Portions frozen"
+      ],
+      "allergen_category": "Fish",
+      "temperature_control": {
+        "cold_chain_category": "Frozen",
+        "target_receiving_temperature_c": -18,
+        "maximum_receiving_temperature_c": -15,
+        "storage_temperature_c": -18,
+        "temperature_notes": "Market-specific contaminant limits must be reviewed before approval."
+      },
+      "quality_controls": [
+        "Sensory inspection",
+        "Temperature verification",
+        "Contaminant compliance review when required",
+        "Traceability documentation review",
+        "Label verification"
+      ],
+      "food_safety_hazards": [
+        "Heavy metal customer limits",
+        "Temperature abuse",
+        "Allergen mislabeling",
+        "Physical contamination"
+      ],
+      "certification_applicability": {
+        "msc_chain_of_custody": "Applicable only when certified source is verified",
+        "haccp": "Applicable",
+        "brcgs_food_safety": "Applicable",
+        "ifs_food": "Applicable",
+        "basc": "Applicable for export chain security"
+      },
+      "documentation_required": [
+        "Supplier approval record",
+        "Legal origin evidence",
+        "Market compliance evidence when required",
+        "Receiving inspection record",
+        "Cold chain record"
+      ],
+      "approval_status": "Conditional",
+      "risk_level": "High",
+      "keywords": [
+        "swordfish",
+        "pez espada",
+        "pelagic",
+        "contaminants",
+        "export"
+      ]
+    },
+    {
+      "species_code": "SPC-010",
+      "common_name": "Octopus",
+      "spanish_name": "Pulpo",
+      "scientific_name": "Octopus mimus",
+      "species_group": "Cephalopod",
+      "origin_type": "Wild-caught",
+      "typical_fishing_area": [
+        "FAO 87 - Southeast Pacific"
+      ],
+      "approved_product_forms": [
+        "Whole cleaned frozen",
+        "Tentacles frozen",
+        "Cooked frozen"
+      ],
+      "allergen_category": "Mollusk",
+      "temperature_control": {
+        "cold_chain_category": "Frozen",
+        "target_receiving_temperature_c": -18,
+        "maximum_receiving_temperature_c": -15,
+        "storage_temperature_c": -18,
+        "temperature_notes": "Cooked product requires additional process validation records."
+      },
+      "quality_controls": [
+        "Sensory inspection",
+        "Texture verification",
+        "Temperature verification",
+        "Foreign matter check",
+        "Cooking process record when applicable"
+      ],
+      "food_safety_hazards": [
+        "Temperature abuse",
+        "Process contamination",
+        "Allergen mislabeling",
+        "Foreign matter"
+      ],
+      "certification_applicability": {
+        "msc_chain_of_custody": "Not automatically applicable; verify certified source before claim",
+        "haccp": "Applicable",
+        "brcgs_food_safety": "Applicable",
+        "ifs_food": "Applicable",
+        "basc": "Applicable for export chain security"
+      },
+      "documentation_required": [
+        "Supplier approval record",
+        "Legal origin evidence",
+        "Receiving inspection record",
+        "Cold chain record",
+        "Cooking validation record when applicable"
+      ],
+      "approval_status": "Approved",
+      "risk_level": "Medium",
+      "keywords": [
+        "octopus",
+        "pulpo",
+        "cephalopod",
+        "mollusk",
+        "cooked frozen"
+      ]
+    },
+    {
+      "species_code": "SPC-011",
+      "common_name": "Sea Bass",
+      "spanish_name": "Corvina",
+      "scientific_name": "Cilus gilberti",
+      "species_group": "White fish",
+      "origin_type": "Wild-caught",
+      "typical_fishing_area": [
+        "FAO 87 - Southeast Pacific"
+      ],
+      "approved_product_forms": [
+        "Whole round chilled",
+        "Whole gutted chilled",
+        "Fillet chilled",
+        "Fillet frozen"
+      ],
+      "allergen_category": "Fish",
+      "temperature_control": {
+        "cold_chain_category": "Chilled",
+        "target_receiving_temperature_c": 0,
+        "maximum_receiving_temperature_c": 4,
+        "storage_temperature_c": 0,
+        "temperature_notes": "Chilled product must be evaluated for freshness and time since capture."
+      },
+      "quality_controls": [
+        "Freshness sensory inspection",
+        "Temperature verification",
+        "Parasite visual check",
+        "Ice condition review",
+        "Lot traceability review"
+      ],
+      "food_safety_hazards": [
+        "Temperature abuse",
+        "Parasites",
+        "Allergen mislabeling",
+        "Cross-contamination"
+      ],
+      "certification_applicability": {
+        "msc_chain_of_custody": "Applicable only when certified source is verified",
+        "haccp": "Applicable",
+        "brcgs_food_safety": "Applicable",
+        "ifs_food": "Applicable",
+        "basc": "Applicable for export chain security"
+      },
+      "documentation_required": [
+        "Supplier approval record",
+        "Legal origin evidence",
+        "Receiving inspection record",
+        "Cold chain record",
+        "Freshness evaluation record"
+      ],
+      "approval_status": "Approved",
+      "risk_level": "Medium",
+      "keywords": [
+        "sea bass",
+        "corvina",
+        "white fish",
+        "chilled",
+        "freshness"
+      ]
+    },
+    {
+      "species_code": "SPC-012",
+      "common_name": "Blue Mussel",
+      "spanish_name": "Choro",
+      "scientific_name": "Mytilus edulis",
+      "species_group": "Bivalve mollusk",
+      "origin_type": "Farmed",
+      "typical_fishing_area": [
+        "Approved aquaculture farms",
+        "Approved imported supply areas"
+      ],
+      "approved_product_forms": [
+        "Whole shell frozen",
+        "Meat frozen",
+        "Cooked frozen"
+      ],
+      "allergen_category": "Mollusk",
+      "temperature_control": {
+        "cold_chain_category": "Frozen",
+        "target_receiving_temperature_c": -18,
+        "maximum_receiving_temperature_c": -15,
+        "storage_temperature_c": -18,
+        "temperature_notes": "Harvest area and biotoxin evidence must be reviewed before acceptance."
+      },
+      "quality_controls": [
+        "Harvest area status verification",
+        "Biotoxin evidence review",
+        "Temperature verification",
+        "Shell integrity check",
+        "Microbiological criteria review when applicable"
+      ],
+      "food_safety_hazards": [
+        "Biotoxins",
+        "Microbiological contamination",
+        "Shell fragments",
+        "Allergen mislabeling",
+        "Temperature abuse"
+      ],
+      "certification_applicability": {
+        "msc_chain_of_custody": "Not applicable unless specifically certified under a recognized program",
+        "haccp": "Applicable",
+        "brcgs_food_safety": "Applicable",
+        "ifs_food": "Applicable",
+        "basc": "Applicable for export chain security"
+      },
+      "documentation_required": [
+        "Aquaculture supplier approval",
+        "Harvest area authorization",
+        "Biotoxin compliance evidence",
+        "Receiving inspection record",
+        "Cold chain record"
+      ],
+      "approval_status": "Under Review",
+      "risk_level": "High",
+      "keywords": [
+        "mussel",
+        "choro",
+        "bivalve",
+        "biotoxin",
+        "aquaculture"
+      ]
+    }
+  ],
+  "review_controls": {
+    "minimum_review_points_before_activation": [
+      "Scientific name confirmed",
+      "Commercial name confirmed",
+      "Allergen category confirmed",
+      "Approved product forms defined",
+      "Temperature control limits defined",
+      "Supplier or vessel documentation requirements defined",
+      "Certification applicability reviewed",
+      "Food safety hazards linked to HACCP assessment",
+      "Traceability fields tested in receiving and dispatch records"
+    ],
+    "change_triggers": [
+      "New species or new presentation",
+      "New fishing area, farm, vessel, or supplier",
+      "Change in market access requirement",
+      "Change in customer specification",
+      "Certification scope change",
+      "Food safety incident or complaint",
+      "Regulatory update affecting species identity, labeling, contaminants, or origin documentation"
+    ],
+    "inactive_species_rule": "Species marked as Suspended or Under Review must not be purchased, received, processed, labeled, or shipped without written approval from Operations and Quality Assurance."
+  },
+  "references": {
+    "internal_documents": [
+      "BSF-CORP-001 - Corporate Profile",
+      "BSF-CORP-002 - Corporate Glossary",
+      "BSF-DOC-STD-001 - Corporate Document Standard",
+      "BSF-OPS-001 - Cold Chain Control Register",
+      "BSF-OPS-002 - Authorized Fishing Vessels",
+      "BSF-OPS-004 - Seafood Receiving and Inspection Procedure",
+      "BSF-QMS-002 - Certification and Compliance Overview",
+      "BSF-QMS-003 - Corrective Action and Nonconformity Procedure",
+      "BSF-INV-001 - Document Inventory",
+      "BSF-INV-002 - Document Ownership Matrix",
+      "BSF-INV-003 - Document Sources and Ingestion Plan",
+      "BSF-INV-004 - Document Curation and Quality Criteria",
+      "BSF-INV-005 - Access and Permissions Policy"
+    ],
+    "external_standards_and_frameworks": [
+      "ISO 9001 - Quality management systems",
+      "HACCP / Codex General Principles of Food Hygiene",
+      "BRCGS Food Safety",
+      "IFS Food",
+      "MSC Chain of Custody",
+      "BASC - Business Alliance for Secure Commerce",
+      "SMETA / Sedex responsible sourcing expectations where supplier labor and ethical trade evidence is applicable"
+    ]
+  }
+}

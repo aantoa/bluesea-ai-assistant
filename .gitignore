@@ -217,10 +217,6 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-# BlueSea source documents
-documents/**/*
-!documents/**/
-!documents/**/.gitkeep
 
 .DS_Store
 
