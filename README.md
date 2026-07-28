@@ -37,7 +37,6 @@ bluesea-ai-assistant/
   docs/                 # Documentacion tecnica
   tests/                # Pruebas
   requirements.txt      # Dependencias
-  runtime.txt           # Version de Python para Streamlit Cloud
 ```
 
 ## Instalacion Local
