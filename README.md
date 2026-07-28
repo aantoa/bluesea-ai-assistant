@@ -1,5 +1,9 @@
 # BlueSea AI Assistant
 
+<p align="center">
+  <img src="app/assets/logo-blueseaAI.png" alt="BlueSea AI Assistant" width="220">
+</p>
+
 BlueSea AI Assistant es un agente corporativo de inteligencia artificial diseñado para consultar, interpretar y responder preguntas sobre la documentación interna de BlueSea Foods.
 
 El agente permite centralizar el conocimiento documental de la compañía y responder en lenguaje natural sobre políticas, procedimientos, estándares, documentos legales, financieros, operativos, de calidad, HSE, recursos humanos, tecnología e inventario documental.
@@ -148,3 +152,11 @@ pytest
 
 - La app principal es `app/streamlit_app.py`.
 - La arquitectura detallada esta documentada en `docs/architecture.md`.
+
+## Autora
+
+- Amalia Anahi Anto Alzamora
+
+## Contexto academico
+
+Este proyecto fue desarrollado como parte del **Challenge Alura Agente - ONE IA for Tech**, orientado a la construccion de soluciones con inteligencia artificial generativa aplicadas a casos reales de negocio.
