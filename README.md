@@ -1,569 +1,148 @@
 # BlueSea AI Assistant
 
-Proyecto para el Challenge de Agentes de IA de Alura. La solucion simula un asistente corporativo para **BlueSea Foods**, una empresa ficticia del sector seafood que necesita consultar informacion interna sin revisar manualmente documentos, politicas, guias y registros.
+BlueSea AI Assistant es un agente corporativo de inteligencia artificial diseñado para consultar, interpretar y responder preguntas sobre la documentación interna de BlueSea Foods.
 
-La solucion final sera un agente RAG capaz de responder preguntas en lenguaje natural usando la documentacion corporativa como fuente. El proyecto se esta desarrollando por tickets para avanzar de forma ordenada: primero documentacion, luego procesamiento, despues recuperacion semantica, agente y deploy.
+El agente permite centralizar el conocimiento documental de la compañía y responder en lenguaje natural sobre políticas, procedimientos, estándares, documentos legales, financieros, operativos, de calidad, HSE, recursos humanos, tecnología e inventario documental.
 
-## Estado Actual
+A diferencia de un buscador tradicional, el sistema no solo localiza documentos: procesa la pregunta del usuario, recupera evidencia relevante, analiza el contexto disponible y genera una respuesta estructurada con base en fuentes internas. Cuando no existe información suficiente en la base documental, el agente lo indica de forma explícita para evitar respuestas inventadas.
 
-| Ticket | Estado | Que contiene |
-| --- | --- | --- |
-| Ticket 1 | Cerrado | Estructura de carpetas, inventario maestro de 24 documentos, criterio de privacidad y validador local. |
-| Ticket 2 | Cerrado tecnicamente | Extraccion multiformato, limpieza de texto y generacion de chunks con metadata. |
-| Ticket 3 | Cerrado tecnicamente | Generacion de embeddings locales, indice vectorial JSONL y manifest de indexacion. |
-| Ticket 4 | Cerrado tecnicamente | Recuperacion RAG local con busqueda semantica, filtros de metadata, reranking, ensamblaje de contexto y notebook corregido para usar `documents/` desde la raiz real del proyecto. |
-| Ticket 5+ | Pendiente | Generacion de respuestas, interfaz y deploy en OCI. |
+El proyecto combina una interfaz en Streamlit, procesamiento documental, embeddings multilingües, recuperación semántica, control del índice documental y generación de respuestas asistidas por IA.
 
-> El repositorio todavia no contiene el agente conversacional completo. La version actual crece por tickets: Ticket 1 prepara y valida la base documental; Ticket 2 agrega extraccion multiformato y generacion de chunks; Ticket 3 agrega la indexacion vectorial local; Ticket 4 recupera y ordena contexto para la futura respuesta del agente.
+## Que Incluye
 
-## Documentacion Definida
+- Interfaz web en Streamlit.
+- Procesamiento de documentos internos.
+- Indice vectorial local.
+- Embeddings multilingues para consultas en espanol e ingles.
+- Recuperacion de fuentes documentales.
+- Diagnostico del indice usado por la app.
 
-BlueSea Foods trabaja con 24 documentos internos, organizados por area:
-
-| Area | Cantidad |
-| --- | ---: |
-| Documentos corporativos | 5 |
-| Recursos Humanos | 3 |
-| Seguridad, Salud y Medio Ambiente | 2 |
-| Operaciones | 4 |
-| Calidad y certificaciones | 3 |
-| Tecnologia | 2 |
-| Control e inventario documental | 5 |
-| **Total** | **24** |
-
-Conteo por formato:
-
-| Formato | Cantidad |
-| --- | ---: |
-| PDF | 11 |
-| DOCX | 2 |
-| XLSX | 2 |
-| PPTX | 1 |
-| Markdown | 4 |
-| CSV | 2 |
-| JSON | 1 |
-| HTML | 1 |
-
-Inventario maestro:
+La explicacion tecnica completa esta en:
 
 ```text
-documents/inventory/BSF-INV-001_Document_Inventory.csv
+docs/architecture.md
 ```
 
-Documentos de cierre:
-
-```text
-docs/tickets/01_cierre_ticket_documental.md
-docs/tickets/02_cierre_ticket_procesamiento.md
-docs/tickets/03_cierre_ticket_indexacion.md
-```
-
-## Privacidad y GitHub
-
-Los documentos fuente completos se mantienen **localmente** y no se suben a GitHub. Esto evita publicar archivos internos o simulados del caso corporativo.
-
-GitHub debe contener:
-
-- codigo fuente del proyecto;
-- README y documentacion tecnica;
-- tickets del proyecto;
-- notebook de Colab;
-- inventario maestro;
-- estructura de carpetas mediante `.gitkeep`.
-
-GitHub no debe contener:
-
-- PDF;
-- DOCX;
-- XLSX;
-- PPTX;
-- HTML;
-- JSON;
-- CSV operativos distintos al inventario maestro;
-- Markdown internos usados como documentos fuente.
-
-La regla esta configurada en `.gitignore`:
-
-```gitignore
-documents/**/*
-!documents/**/
-!documents/**/.gitkeep
-!documents/inventory/BSF-INV-001_Document_Inventory.csv
-```
-
-## Estructura del Repositorio
+## Estructura Principal
 
 ```text
 bluesea-ai-assistant/
-  assets/
-    .gitkeep
-  data/
-    processed/              
-  docs/
-    architecture.md
-    tickets/
-      01_recoleccion_organizacion.md
-      01_cierre_ticket_documental.md
-      02_proceso_extraccion_contenido.md
-      02_cierre_ticket_procesamiento.md
-      03_indexacion_vectorial.md
-      03_cierre_ticket_indexacion.md
-      04_recuperacion_rag.md
-      04_cierre_ticket_recuperacion.md
-  documents/
-    corporate/
-    hr/
-    hse/
-    inventory/
-      BSF-INV-001_Document_Inventory.csv
-    it/
-    operations/
-    quality/
-  notebooks/
-    01_ticket1_inventory_validation_colab.ipynb
-    02_ticket2_processing_chunks_colab.ipynb
-    03_ticket3_vector_index_colab.ipynb
-    04_ticket4_retrieval_colab.ipynb
-  scripts/
-    01_inventory.py
-    02_process.py              # Ticket 2; no se usa para cerrar el Ticket 1
-    03_index.py                # Ticket 3; genera indice vectorial local
-    04_retrieve.py             # Ticket 4; recupera contexto RAG local
-  src/
-    rag_bsf/
-      __init__.py
-      cli.py
-      config.py
-      document_loader.py
-      embeddings.py
-      rag_pipeline.py
-      retrieval.py
-      schemas.py
-      text_processing.py
-      vector_store.py
-  tests/
-    conftest.py
-    test_indexing.py
-    test_retrieval.py
-    test_text_processing.py
-  .gitignore
-  pyproject.toml
-  requirements.txt
-  README.md
+  app/                  # Aplicacion Streamlit
+  documents/            # Documentos fuente por area
+  data/                 # Chunks procesados e indice vectorial
+  src/rag_bsf/          # Codigo del pipeline RAG
+  docs/                 # Documentacion tecnica
+  tests/                # Pruebas
+  requirements.txt      # Dependencias
+  runtime.txt           # Version de Python para Streamlit Cloud
 ```
-
-La estructura anterior con `documents/raw/markdown/`, `rag_bsf/` en la raiz o `document_inventory.csv` ya no corresponde a esta version. El codigo versionado vive en `src/rag_bsf/` y los documentos fuente se organizan localmente por area dentro de `documents/`.
-
-## Requisitos
-
-El proyecto requiere:
-
-```text
-Python >= 3.10
-```
-
-Recomendacion practica:
-
-- usar Python 3.11 si quieres maxima estabilidad para futuras librerias de IA;
-- Python 3.14 puede funcionar para esta etapa actual;
-- no usar Python 3.9, porque el proyecto no lo acepta.
-
-Si al instalar aparece un error como:
-
-```text
-Package 'bluesea-ai-assistant' requires a different Python: 3.9.6 not in '>=3.10'
-```
-
-significa que tu `.venv` fue creado con Python 3.9. Debes recrearlo con Python 3.10 o superior.
 
 ## Instalacion Local
 
 Desde la raiz del proyecto:
 
 ```bash
-python --version
-```
-
-Si muestra Python 3.10 o superior:
-
-```bash
-python -m venv .venv
-source .venv/bin/activate
-pip install --upgrade pip
-pip install -r requirements.txt
-```
-
-En Mac, si tienes Python 3.14:
-
-```bash
-python3.14 -m venv .venv
-source .venv/bin/activate
-python --version
-pip install --upgrade pip
-pip install -r requirements.txt
-```
-
-Si prefieres Python 3.11:
-
-```bash
 python3.11 -m venv .venv
 source .venv/bin/activate
-python --version
-pip install --upgrade pip
+pip install --upgrade pip setuptools wheel
 pip install -r requirements.txt
 ```
 
-En Windows:
+## Preparar el Indice
+
+Antes de usar la app, procesa e indexa los documentos:
 
 ```bash
-python -m venv .venv
-.venv\Scripts\activate
-pip install --upgrade pip
-pip install -r requirements.txt
+PYTHONPATH=src python -m rag_bsf.cli process
+PYTHONPATH=src python -m rag_bsf.cli index
 ```
 
-## Comandos Principales del Ticket 1
-
-Validar que los documentos esperados del Ticket 1 existan localmente:
-
-```bash
-python -m rag_bsf.cli validate-documents
-```
-
-Generar inventario tecnico de documentos fuente disponibles:
-
-```bash
-python -m rag_bsf.cli inventory
-```
-
-Si aun no instalaste el paquete, puedes ejecutar temporalmente con `PYTHONPATH=src`:
-
-```bash
-PYTHONPATH=src python -m rag_bsf.cli validate-documents
-PYTHONPATH=src python -m rag_bsf.cli inventory
-```
-
-Las salidas se generan en:
+Esto genera los archivos necesarios en:
 
 ```text
 data/processed/
+data/index/
 ```
 
-Esos archivos son resultados locales de ejecucion y no se suben a GitHub.
-
-## Comandos Principales del Ticket 2
-
-Procesar documentos fuente locales y generar chunks:
+## Ejecutar la App
 
 ```bash
-PYTHONPATH=src python -m rag_bsf.cli process
+streamlit run app/streamlit_app.py
 ```
 
-Tambien puedes usar el script directo:
+Tambien puedes hacer una pregunta desde consola:
 
 ```bash
-python scripts/02_process.py
+PYTHONPATH=src python -m rag_bsf.cli ask "What is the expense reimbursement policy?"
 ```
 
-La salida principal del Ticket 2 es:
+## Variables de Entorno
 
-```text
-data/processed/chunks.jsonl
+Modelo recomendado para embeddings:
+
+```env
+EMBEDDING_MODEL=sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2
 ```
 
-Cada linea de `chunks.jsonl` contiene un fragmento limpio con texto y metadata de trazabilidad: `document_code`, `title`, `category`, `owner`, `filename`, `path`, `source_format`, `section`, `chunk_number`, `confidentiality`, `status` y `review_date`.
+En Streamlit Cloud, colocarlo en **App settings > Secrets**:
 
-Si no tienes documentos fuente locales soportados en `documents/`, el comando puede terminar correctamente con:
-
-```text
-Processing completed: 0 documents, 0 chunks.
+```toml
+EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 ```
 
-Eso no es error de codigo; significa que todavia no hay documentos disponibles para ingesta.
+Si usas un modelo de Hugging Face para generacion, tambien puedes configurar:
 
-## Comandos Principales del Ticket 3
-
-Generar embeddings locales e indice vectorial desde `chunks.jsonl`:
-
-```bash
-PYTHONPATH=src python -m rag_bsf.cli index
+```toml
+HF_MODEL = "Qwen/Qwen2.5-7B-Instruct"
+HF_MAX_NEW_TOKENS = 450
+HF_TEMPERATURE = 0.1
+HF_DEBUG = true
 ```
 
-Tambien puedes usar el script directo:
+## Despliegue en Streamlit Cloud
 
-```bash
-PYTHONPATH=src python scripts/03_index.py
-```
+Configuracion recomendada:
 
-Las salidas principales del Ticket 3 son:
-
-```text
-data/index/vectors.jsonl
-data/index/embeddings_manifest.json
-```
-
-Para inspeccionar tecnicamente el indice:
-
-```bash
-PYTHONPATH=src python -m rag_bsf.cli search-index "politica de reembolso de gastos"
-```
-
-Este comando solo muestra chunks cercanos y sus scores. Todavia no genera una respuesta final ni reemplaza al agente RAG.
-
-## Comandos Principales del Ticket 4
-
-Recuperar contexto RAG desde el indice vectorial:
-
-```bash
-PYTHONPATH=src python -m rag_bsf.cli retrieve "cuantos dias de vacaciones tengo"
-```
-
-Usar busqueda amplia, reranking y filtros de metadata:
-
-```bash
-PYTHONPATH=src python -m rag_bsf.cli retrieve "politica de licencia remunerada" --candidate-k 20 --top-k 5 --filter category="Human Resources"
-```
-
-Tambien puedes usar el script directo:
-
-```bash
-PYTHONPATH=src python scripts/04_retrieve.py
-```
-
-El comando `retrieve` devuelve un bloque de contexto con fuentes en formato `[S1]`, `[S2]`, etc. Todavia no redacta la respuesta final; deja preparado el contexto que se enviara al LLM en el siguiente ticket.
-
-## Resultado Esperado de Validacion
-
-Si solo tienes el repositorio clonado desde GitHub, es normal que el validador muestre pocos documentos disponibles, porque los documentos fuente no se versionan.
-
-Ejemplo esperado en un repositorio sin documentos locales:
-
-```text
-Document validation completed: 0/24 source files, 0/24 Markdown companion files, 24 missing.
-```
-
-Ese resultado es normal si solo esta versionado el inventario y los documentos fuente finales se mantienen fuera de GitHub.
-
-Para cerrar el Ticket 1 en tu maquina, debes tener los 24 documentos colocados localmente en sus carpetas. En ese caso, el validador debe acercarse a:
-
-```text
-Document validation completed: 24/24 source files, ... Markdown companion files, 0 missing.
-```
-
-El numero de archivos Markdown depende de cuantos documentos tengan una version companion `.md`; la ingesta tambien puede trabajar con los formatos fuente soportados.
-
-## Uso en Google Colab
-
-El proyecto incluye notebooks separados por ticket. El Ticket 1 usa Colab como evidencia de validacion documental; el Ticket 2 usa Colab como laboratorio de procesamiento; el Ticket 3 usa Colab como laboratorio de indexacion vectorial local; el Ticket 4 usa Colab para probar recuperacion y ensamblaje de contexto.
-
-```text
-notebooks/01_ticket1_inventory_validation_colab.ipynb
-notebooks/02_ticket2_processing_chunks_colab.ipynb
-notebooks/03_ticket3_vector_index_colab.ipynb
-notebooks/04_ticket4_retrieval_colab.ipynb
-```
-
-Flujo sugerido para el Ticket 1:
-
-```bash
-git clone https://github.com/aantoa/bluesea-ai-assistant
-cd bluesea-ai-assistant
-pip install -r requirements.txt
-python -m rag_bsf.cli validate-documents
-python -m rag_bsf.cli inventory
-```
-
-Si en Colab solo clonas GitHub, es normal que el validador muestre documentos faltantes, porque los documentos fuente no se versionan. Para validar `24/24` en Colab, sube un ZIP privado con las carpetas locales de `documents/`.
-
-Para el Ticket 4, el notebook debe ejecutarse desde la raiz real del proyecto, es decir, desde la carpeta donde existe `pyproject.toml`. La primera celda detecta esa raiz, agrega `src/` al path de Python y exporta `PYTHONPATH` para que funcionen tambien los comandos con `!python`.
-
-Salida esperada:
-
-```text
-PROJECT_ROOT = <ruta real del proyecto>
-src agregado = <ruta real del proyecto>/src
-Carpeta usada para documentos: <ruta real del proyecto>/documents
-Inventario existe: True
-```
-
-La carpeta de documentos del Ticket 4 debe apuntar a:
-
-```python
-DOCUMENTS_DIR = project_root / "documents"
-```
-
-No debe apuntar a `chunks_path`, porque `chunks_path` es el archivo generado `data/processed/chunks.jsonl`, no una carpeta de documentos.
-
-Si el notebook imprime una ruta con `.Trash`, se esta ejecutando desde una copia en la papelera de Mac. En ese caso, cierra el kernel, abre la carpeta real del proyecto o configura temporalmente `PROJECT_ROOT_OVERRIDE` con la ruta correcta.
-
-El codigo final reutilizable debe quedar en `src/`; los notebooks solo ejecutan y documentan el flujo.
-
-## Arquitectura Prevista
-
-La arquitectura se documenta en detalle en:
-
-```text
-docs/architecture.md
-```
-
-Arquitectura actual al cierre del Ticket 4:
-
-```text
-documents/inventory/BSF-INV-001_Document_Inventory.csv
-documents/<area>/*.{md,pdf,docx,pptx,xlsx,html,json,csv,tsv,txt}
-  -> src/rag_bsf/document_loader.py
-  -> src/rag_bsf/text_processing.py
-  -> src/rag_bsf/rag_pipeline.py
-  -> data/processed/document_status.csv
-  -> data/processed/inventory.json
-  -> data/processed/chunks.jsonl
-  -> src/rag_bsf/embeddings.py
-  -> src/rag_bsf/vector_store.py
-  -> data/index/vectors.jsonl
-  -> data/index/embeddings_manifest.json
-  -> src/rag_bsf/retrieval.py
-  -> contexto RAG con fuentes
-```
-
-Arquitectura completa prevista para tickets posteriores:
-
-```text
-Inventario y documentos locales
-  -> validacion documental
-  -> extraccion y limpieza
-  -> chunks con metadata
-  -> embeddings
-  -> base vectorial
-  -> recuperacion
-  -> respuesta del agente con fuentes
-  -> deploy en OCI
-```
-
-Alcance tecnico actual:
-
-```text
-Inventario documental -> validacion de archivos locales -> extraccion y limpieza multiformato -> chunks con metadata -> embeddings locales -> indice vectorial local -> recuperacion RAG con reranking
-```
-
-## Archivos Clave
-
-| Archivo | Proposito |
+| Campo | Valor |
 | --- | --- |
-| `README.md` | Guia principal del proyecto. |
-| `requirements.txt` | Instalacion rapida para local, evaluadores y Colab. |
-| `pyproject.toml` | Configuracion del paquete Python. |
-| `.gitignore` | Protege documentos fuente y salidas locales. |
-| `documents/inventory/BSF-INV-001_Document_Inventory.csv` | Inventario maestro de 24 documentos. |
-| `docs/architecture.md` | Arquitectura actual y ruta tecnica prevista. |
-| `docs/tickets/01_cierre_ticket_documental.md` | Sustento de cierre del Ticket 1. |
-| `docs/tickets/02_proceso_extraccion_contenido.md` | Desarrollo tecnico del procesamiento documental. |
-| `docs/tickets/02_cierre_ticket_procesamiento.md` | Sustento de cierre del Ticket 2. |
-| `docs/tickets/03_indexacion_vectorial.md` | Desarrollo tecnico de la indexacion vectorial local. |
-| `docs/tickets/03_cierre_ticket_indexacion.md` | Sustento de cierre del Ticket 3. |
-| `docs/tickets/04_recuperacion_rag.md` | Desarrollo tecnico de la capa de recuperacion RAG. |
-| `docs/tickets/04_cierre_ticket_recuperacion.md` | Sustento de cierre del Ticket 4. |
-| `notebooks/01_ticket1_inventory_validation_colab.ipynb` | Notebook de apoyo para validar inventario y documentos del Ticket 1 en Colab. |
-| `notebooks/02_ticket2_processing_chunks_colab.ipynb` | Notebook de apoyo para pruebas del Ticket 2 en Colab. |
-| `notebooks/03_ticket3_vector_index_colab.ipynb` | Notebook de apoyo para pruebas del Ticket 3 en Colab. |
-| `notebooks/04_ticket4_retrieval_colab.ipynb` | Notebook de apoyo para pruebas del Ticket 4 en Colab. |
-| `src/rag_bsf/` | Codigo del pipeline documental. |
-| `scripts/02_process.py` | Ejecucion directa del procesamiento multiformato. |
-| `scripts/03_index.py` | Ejecucion directa de la indexacion vectorial local. |
-| `scripts/04_retrieve.py` | Ejecucion directa de la recuperacion RAG local. |
-| `data/processed/chunks.jsonl` | Salida local generada por el Ticket 2. |
-| `data/index/vectors.jsonl` | Salida local generada por el Ticket 3. |
+| Repository | `aantoa/bluesea-ai-assistant` |
+| Branch | `main` |
+| Main file path | `app/streamlit_app.py` |
+| Python | `3.11` |
 
-## Cierre Tecnico Validado
-
-El pipeline debe crecer por tickets. Los archivos compartidos de `src/rag_bsf/` pueden existir desde la base del proyecto, pero cada commit debe mostrar solo la funcionalidad cerrada en esa etapa.
-
-Para el Ticket 1, la parte versionada corresponde a inventario y validacion documental:
+El archivo `runtime.txt` debe contener:
 
 ```text
-src/rag_bsf/config.py
-src/rag_bsf/document_loader.py
-src/rag_bsf/rag_pipeline.py
-src/rag_bsf/schemas.py
-src/rag_bsf/cli.py
+python-3.11
 ```
 
-Para el Ticket 2 se agregan o activan:
+Para evitar errores del watcher de Streamlit con dependencias opcionales de `transformers`,
+el archivo `.streamlit/config.toml` debe contener:
 
-```text
-src/rag_bsf/text_processing.py
-scripts/02_process.py
-tests/test_text_processing.py
-notebooks/02_ticket2_processing_chunks_colab.ipynb
+```toml
+[server]
+fileWatcherType = "none"
 ```
 
-Tambien se habilita el comando `process` dentro de `src/rag_bsf/cli.py` y la funcion `process_documents()` dentro de `src/rag_bsf/rag_pipeline.py`.
+## Reindexar
 
-Para el Ticket 3 se agregan o activan:
-
-```text
-src/rag_bsf/embeddings.py
-src/rag_bsf/vector_store.py
-scripts/03_index.py
-tests/test_indexing.py
-notebooks/03_ticket3_vector_index_colab.ipynb
-docs/tickets/03_indexacion_vectorial.md
-docs/tickets/03_cierre_ticket_indexacion.md
-```
-
-Tambien se habilita el comando `index` dentro de `src/rag_bsf/cli.py` y la funcion `index_chunks()` dentro de `src/rag_bsf/rag_pipeline.py`.
-
-Para el Ticket 4 se agregan o activan:
-
-```text
-src/rag_bsf/retrieval.py
-scripts/04_retrieve.py
-tests/test_retrieval.py
-notebooks/04_ticket4_retrieval_colab.ipynb
-docs/tickets/04_recuperacion_rag.md
-docs/tickets/04_cierre_ticket_recuperacion.md
-```
-
-Tambien se habilita el comando `retrieve` dentro de `src/rag_bsf/cli.py` y la funcion `retrieve_rag_context()` dentro de `src/rag_bsf/rag_pipeline.py`.
-
-El notebook del Ticket 4 tambien deja validado el manejo de rutas de trabajo:
-
-- `project_root` se resuelve desde `pyproject.toml`;
-- `src/` se agrega a `sys.path`;
-- `PYTHONPATH` se exporta para subprocesos;
-- `documents/` es la carpeta fuente por defecto;
-- copias dentro de `.Trash` se bloquean para evitar procesar documentos vacios o incorrectos.
-
-El inventario maestro no debe modificarse para adaptar el codigo. El ajuste se hace en Python mediante normalizacion de encabezados, para que el pipeline pueda leer columnas como `document_code`, `document_title`, `business_area`, `current_file_name` y `current_relative_path`.
-
-Antes de hacer commit, validar:
+Reindexa cuando agregues documentos, cambies el modelo de embeddings: 
 
 ```bash
-PYTHONPATH=src python -m rag_bsf.cli validate-documents
-PYTHONPATH=src python -m rag_bsf.cli inventory
+rm -f data/index/vectors.jsonl data/index/embeddings_manifest.json
 PYTHONPATH=src python -m rag_bsf.cli process
 PYTHONPATH=src python -m rag_bsf.cli index
-PYTHONPATH=src python -m rag_bsf.cli retrieve "cuantos dias de vacaciones tengo"
+streamlit cache clear
+streamlit run app/streamlit_app.py
 ```
 
-Commit sugerido para el Ticket 4:
+## Pruebas
 
 ```bash
-git add README.md docs/architecture.md docs/tickets/04_recuperacion_rag.md docs/tickets/04_cierre_ticket_recuperacion.md notebooks/04_ticket4_retrieval_colab.ipynb scripts/04_retrieve.py tests/test_retrieval.py src/rag_bsf
-git commit -m "Close Ticket 4 RAG retrieval documentation"
+pytest
 ```
 
-## Siguientes Pasos
+## Notas
 
-1. Probar la recuperacion con mas preguntas reales de colaboradores.
-2. Ajustar pesos del reranking si aparecen resultados fuera de objetivo.
-3. Implementar agente de preguntas y respuestas.
-4. Documentar ejemplos de preguntas/respuestas.
-5. Preparar deploy en OCI.
-
-## Documentation
-
-- [Architecture](docs/architecture.md)
-- [Ticket 1 - Recoleccion y organizacion documental](docs/tickets/01_recoleccion_organizacion.md)
-- [Ticket 2 - Proceso y extraccion de contenido](docs/tickets/02_proceso_extraccion_contenido.md)
-- [Ticket 3 - Indexacion vectorial](docs/tickets/03_indexacion_vectorial.md)
-- [Ticket 4 - Recuperacion RAG](docs/tickets/04_recuperacion_rag.md)
+- La app principal es `app/streamlit_app.py`.
+- La arquitectura detallada esta documentada en `docs/architecture.md`.
