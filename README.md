@@ -22,6 +22,9 @@ La explicacion tecnica completa esta en:
 ```text
 docs/architecture.md
 ```
+## Demo
+
+![BlueSea AI Assistant](app/assets/blue-seaAI-demo.gif)
 
 ## Estructura Principal
 
